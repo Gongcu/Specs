@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C88FA4FD1C25C44800CCFEA4"
-               BuildableName = "RxTest.framework"
-               BlueprintName = "RxTest"
+               BuildableName = "BuzzRxTest.framework"
+               BlueprintName = "BuzzRxTest"
                ReferencedContainer = "container:Rx.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,8 +44,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C88FA4FD1C25C44800CCFEA4"
-            BuildableName = "RxTest.framework"
-            BlueprintName = "RxTest"
+            BuildableName = "BuzzRxTest.framework"
+            BlueprintName = "BuzzRxTest"
             ReferencedContainer = "container:Rx.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,8 +60,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C88FA4FD1C25C44800CCFEA4"
-            BuildableName = "RxTest.framework"
-            BlueprintName = "RxTest"
+            BuildableName = "BuzzRxTest.framework"
+            BlueprintName = "BuzzRxTest"
             ReferencedContainer = "container:Rx.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

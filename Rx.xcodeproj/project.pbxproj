@@ -1816,7 +1816,7 @@
 			path = Subjects;
 			sourceTree = "<group>";
 		};
-		C8093E801B8A732E0088E94D /* BuzzRxCocoa */ = {
+		C8093E801B8A732E0088E94D /* RxCocoa */ = {
 			isa = PBXGroup;
 			children = (
 				4B0EF068293BB8360087DC8A /* RxRelay */,
@@ -1831,7 +1831,7 @@
 				C89AB22B1DAAC3A60065FBE6 /* Runtime */,
 				C8093E9D1B8A732E0088E94D /* Info.plist */,
 			);
-			path = BuzzRxCocoa;
+			path = RxCocoa;
 			sourceTree = "<group>";
 		};
 		C8093E811B8A732E0088E94D /* Common */ = {
@@ -2432,7 +2432,7 @@
 				C85B01711DB2ACF2006043C3 /* Platform */,
 				C8093C471B8A72BE0088E94D /* RxSwift */,
 				C8093F571B8A73A20088E94D /* RxBlocking */,
-				C8093E801B8A732E0088E94D /* BuzzRxCocoa */,
+				C8093E801B8A732E0088E94D /* RxCocoa */,
 				A2897CB2225CA1C6004EA481 /* RxRelay */,
 				C89CFA0F1DAABBE20079D23B /* RxTest */,
 				C83508D31C38706D0027C24C /* Tests */,
@@ -4002,7 +4002,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/BuzzRxCocoa/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/RxCocoa/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxCocoa;
@@ -4018,7 +4018,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/BuzzRxCocoa/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/RxCocoa/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxCocoa;
@@ -4034,7 +4034,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/BuzzRxCocoa/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/RxCocoa/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxCocoa;

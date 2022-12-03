@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C80938F51B8A71760088E94D"
-               BuildableName = "RxCocoa.framework"
+               BuildableName = "BuzzRxCocoa.framework"
                BlueprintName = "BuzzRxCocoa"
                ReferencedContainer = "container:Rx.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C80938F51B8A71760088E94D"
-            BuildableName = "RxCocoa.framework"
+            BuildableName = "BuzzRxCocoa.framework"
             BlueprintName = "BuzzRxCocoa"
             ReferencedContainer = "container:Rx.xcodeproj">
          </BuildableReference>
@@ -60,7 +60,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C80938F51B8A71760088E94D"
-            BuildableName = "RxCocoa.framework"
+            BuildableName = "BuzzRxCocoa.framework"
             BlueprintName = "BuzzRxCocoa"
             ReferencedContainer = "container:Rx.xcodeproj">
          </BuildableReference>

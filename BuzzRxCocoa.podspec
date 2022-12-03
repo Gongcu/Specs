@@ -14,9 +14,9 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '3.0'
   s.tvos.deployment_target = '9.0'
 
-  s.header_dir            = "RxCocoa"
-  s.source_files          = 'RxCocoa/**/*.{swift,h,m}', 'Platform/**/*.swift'
-  s.exclude_files         = 'RxCocoa/Platform/**/*.swift', 'Platform/AtomicInt.swift'
+  s.header_dir            = "BuzzRxCocoa"
+  s.source_files          = 'BuzzRxCocoa/**/*.{swift,h,m}', 'Platform/**/*.swift'
+  s.exclude_files         = 'BuzzRxCocoa/Platform/**/*.swift', 'Platform/AtomicInt.swift'
 
   s.dependency 'BuzzRxSwift', '6.5.0'
 

@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RxCocoa/_BRX.h>
-#import <RxCocoa/_BRXDelegateProxy.h>
-#import <RxCocoa/_BRXKVOObserver.h>
-#import <RxCocoa/_BRXObjCRuntime.h>
+#import <BuzzRxCocoa/_BRX.h>
+#import <BuzzRxCocoa/_BRXDelegateProxy.h>
+#import <BuzzRxCocoa/_BRXKVOObserver.h>
+#import <BuzzRxCocoa/_BRXObjCRuntime.h>
 
 //! Project version number for RxCocoa.
 FOUNDATION_EXPORT double BuzzRxCocoaVersionNumber;

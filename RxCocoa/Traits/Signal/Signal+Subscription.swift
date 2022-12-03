@@ -7,7 +7,7 @@
 //
 
 import BuzzRxSwift
-import RxRelay
+import BuzzRxRelay
 
 extension SharedSequenceConvertibleType where SharingStrategy == SignalSharingStrategy {
     /**

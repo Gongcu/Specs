@@ -1,7 +1,7 @@
 rm -rf .build
 mkdir .build
 
-products=(BuzzRxSwift BuzzRxBlocking BuzzRxTest)
+products=(BuzzRxSwift BuzzRxRelay BuzzRxCocoa BuzzRxBlocking BuzzRxTest)
 BUILD_PATH=`realpath .build`
 
 for product in ${products[@]}; do

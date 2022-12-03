@@ -96,17 +96,17 @@
 		A2690E7D22688CAE0032C00E /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C809396D1B8A71760088E94D /* RxCocoa.framework */; };
 		A2690E7E22688CAE0032C00E /* BuzzRxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8093BC71B8A71F00088E94D /* BuzzRxBlocking.framework */; };
 		A2690E7F22688CAE0032C00E /* BuzzRxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88FA50C1C25C44800CCFEA4 /* BuzzRxTest.framework */; };
-		A2690E8022688CAE0032C00E /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2897D53225CA1E7004EA481 /* RxRelay.framework */; };
+		A2690E8022688CAE0032C00E /* BuzzRxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2897D53225CA1E7004EA481 /* BuzzRxRelay.framework */; };
 		A2690E8122688CB50032C00E /* BuzzRxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A56AD71AD7424700B4673B /* BuzzRxSwift.framework */; };
 		A2690E8222688CB50032C00E /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C809396D1B8A71760088E94D /* RxCocoa.framework */; };
 		A2690E8322688CB50032C00E /* BuzzRxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8093BC71B8A71F00088E94D /* BuzzRxBlocking.framework */; };
 		A2690E8422688CB50032C00E /* BuzzRxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88FA50C1C25C44800CCFEA4 /* BuzzRxTest.framework */; };
-		A2690E8522688CB50032C00E /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2897D53225CA1E7004EA481 /* RxRelay.framework */; };
+		A2690E8522688CB50032C00E /* BuzzRxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2897D53225CA1E7004EA481 /* BuzzRxRelay.framework */; };
 		A2690E8622688CB80032C00E /* BuzzRxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A56AD71AD7424700B4673B /* BuzzRxSwift.framework */; };
 		A2690E8722688CB80032C00E /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C809396D1B8A71760088E94D /* RxCocoa.framework */; };
 		A2690E8822688CB80032C00E /* BuzzRxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8093BC71B8A71F00088E94D /* BuzzRxBlocking.framework */; };
 		A2690E8922688CB80032C00E /* BuzzRxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C88FA50C1C25C44800CCFEA4 /* BuzzRxTest.framework */; };
-		A2690E8A22688CB80032C00E /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2897D53225CA1E7004EA481 /* RxRelay.framework */; };
+		A2690E8A22688CB80032C00E /* BuzzRxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2897D53225CA1E7004EA481 /* BuzzRxRelay.framework */; };
 		A2897D57225CA236004EA481 /* PublishRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B0F7101F530CA700548EBE /* PublishRelay.swift */; };
 		A2897D58225CA236004EA481 /* BehaviorRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C8BCCE1F8944B800501D4D /* BehaviorRelay.swift */; };
 		A2897D62225CA3F3004EA481 /* Observable+Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2897D61225CA3F3004EA481 /* Observable+Bind.swift */; };
@@ -1012,7 +1012,7 @@
 		A111CE961B91C97C00D0DCEE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A20CC6C8259F3FE700370AE3 /* WithUnretained.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithUnretained.swift; sourceTree = "<group>"; };
 		A20CC6D4259F408100370AE3 /* Observable+WithUnretainedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+WithUnretainedTests.swift"; sourceTree = "<group>"; };
-		A2897D53225CA1E7004EA481 /* RxRelay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxRelay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2897D53225CA1E7004EA481 /* BuzzRxRelay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BuzzRxRelay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2897D61225CA3F3004EA481 /* Observable+Bind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Bind.swift"; sourceTree = "<group>"; };
 		A2897D65225D0182004EA481 /* PublishRelay+Signal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PublishRelay+Signal.swift"; sourceTree = "<group>"; };
 		A2897D68225D023A004EA481 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -1503,7 +1503,7 @@
 				A2690E7D22688CAE0032C00E /* RxCocoa.framework in Frameworks */,
 				A2690E7E22688CAE0032C00E /* BuzzRxBlocking.framework in Frameworks */,
 				A2690E7F22688CAE0032C00E /* BuzzRxTest.framework in Frameworks */,
-				A2690E8022688CAE0032C00E /* RxRelay.framework in Frameworks */,
+				A2690E8022688CAE0032C00E /* BuzzRxRelay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1515,7 +1515,7 @@
 				A2690E8222688CB50032C00E /* RxCocoa.framework in Frameworks */,
 				A2690E8322688CB50032C00E /* BuzzRxBlocking.framework in Frameworks */,
 				A2690E8422688CB50032C00E /* BuzzRxTest.framework in Frameworks */,
-				A2690E8522688CB50032C00E /* RxRelay.framework in Frameworks */,
+				A2690E8522688CB50032C00E /* BuzzRxRelay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1527,7 +1527,7 @@
 				A2690E8722688CB80032C00E /* RxCocoa.framework in Frameworks */,
 				A2690E8822688CB80032C00E /* BuzzRxBlocking.framework in Frameworks */,
 				A2690E8922688CB80032C00E /* BuzzRxTest.framework in Frameworks */,
-				A2690E8A22688CB80032C00E /* RxRelay.framework in Frameworks */,
+				A2690E8A22688CB80032C00E /* BuzzRxRelay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2452,7 +2452,7 @@
 				C83509941C38742C0027C24C /* AllTests-macOS.xctest */,
 				C85BA04B1C3878740075D68E /* PerformanceTests.app */,
 				C8E8BA551E2C181A00A4AC2C /* Benchmarks.xctest */,
-				A2897D53225CA1E7004EA481 /* RxRelay.framework */,
+				A2897D53225CA1E7004EA481 /* BuzzRxRelay.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2558,9 +2558,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		A2897CB3225CA1E7004EA481 /* RxRelay */ = {
+		A2897CB3225CA1E7004EA481 /* BuzzRxRelay */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A2897D4F225CA1E7004EA481 /* Build configuration list for PBXNativeTarget "RxRelay" */;
+			buildConfigurationList = A2897D4F225CA1E7004EA481 /* Build configuration list for PBXNativeTarget "BuzzRxRelay" */;
 			buildPhases = (
 				A2897CB4225CA1E7004EA481 /* SwiftLint */,
 				A2897CB5225CA1E7004EA481 /* Headers */,
@@ -2573,14 +2573,14 @@
 			dependencies = (
 				A2897D5A225CA28F004EA481 /* PBXTargetDependency */,
 			);
-			name = RxRelay;
+			name = BuzzRxRelay;
 			productName = RxSwift;
-			productReference = A2897D53225CA1E7004EA481 /* RxRelay.framework */;
+			productReference = A2897D53225CA1E7004EA481 /* BuzzRxRelay.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C80938F51B8A71760088E94D /* RxCocoa */ = {
+		C80938F51B8A71760088E94D /* BuzzRxCocoa */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C80939691B8A71760088E94D /* Build configuration list for PBXNativeTarget "RxCocoa" */;
+			buildConfigurationList = C80939691B8A71760088E94D /* Build configuration list for PBXNativeTarget "BuzzRxCocoa" */;
 			buildPhases = (
 				A21D625B21E1D80F00E3E359 /* SwiftLint */,
 				C80939641B8A71760088E94D /* Headers */,
@@ -2594,7 +2594,7 @@
 				A2897D64225CBD37004EA481 /* PBXTargetDependency */,
 				C872BD1C1BC0529600D7175E /* PBXTargetDependency */,
 			);
-			name = RxCocoa;
+			name = BuzzRxCocoa;
 			productName = RxSwift;
 			productReference = C809396D1B8A71760088E94D /* RxCocoa.framework */;
 			productType = "com.apple.product-type.framework";
@@ -2816,8 +2816,8 @@
 			projectRoot = "";
 			targets = (
 				C8A56AD61AD7424700B4673B /* BuzzRxSwift */,
-				C80938F51B8A71760088E94D /* RxCocoa */,
-				A2897CB3225CA1E7004EA481 /* RxRelay */,
+				C80938F51B8A71760088E94D /* BuzzRxCocoa */,
+				A2897CB3225CA1E7004EA481 /* BuzzRxRelay */,
 				C8093B4B1B8A71F00088E94D /* BuzzRxBlocking */,
 				C88FA4FD1C25C44800CCFEA4 /* BuzzRxTest */,
 				C83508C21C386F6F0027C24C /* AllTests-iOS */,
@@ -3861,7 +3861,7 @@
 		};
 		A2897D64225CBD37004EA481 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A2897CB3225CA1E7004EA481 /* RxRelay */;
+			target = A2897CB3225CA1E7004EA481 /* BuzzRxRelay */;
 			targetProxy = A2897D63225CBD37004EA481 /* PBXContainerItemProxy */;
 		};
 		C83508CA1C386F6F0027C24C /* PBXTargetDependency */ = {
@@ -3886,7 +3886,7 @@
 		};
 		C83E398921890703001F4F0E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C80938F51B8A71760088E94D /* RxCocoa */;
+			target = C80938F51B8A71760088E94D /* BuzzRxCocoa */;
 			targetProxy = C83E398821890703001F4F0E /* PBXContainerItemProxy */;
 		};
 		C83E398B21890703001F4F0E /* PBXTargetDependency */ = {
@@ -3906,7 +3906,7 @@
 		};
 		C83E39912189070A001F4F0E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C80938F51B8A71760088E94D /* RxCocoa */;
+			target = C80938F51B8A71760088E94D /* BuzzRxCocoa */;
 			targetProxy = C83E39902189070A001F4F0E /* PBXContainerItemProxy */;
 		};
 		C83E39932189070A001F4F0E /* PBXTargetDependency */ = {
@@ -3936,7 +3936,7 @@
 		};
 		C8B52BC6215434D600EAA87C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C80938F51B8A71760088E94D /* RxCocoa */;
+			target = C80938F51B8A71760088E94D /* BuzzRxCocoa */;
 			targetProxy = C8B52BC5215434D600EAA87C /* PBXContainerItemProxy */;
 		};
 		C8E8BA5C1E2C181A00A4AC2C /* PBXTargetDependency */ = {
@@ -3946,7 +3946,7 @@
 		};
 		C8E8BA761E2C1BB200A4AC2C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C80938F51B8A71760088E94D /* RxCocoa */;
+			target = C80938F51B8A71760088E94D /* BuzzRxCocoa */;
 			targetProxy = C8E8BA751E2C1BB200A4AC2C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -3962,7 +3962,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/RxRelay/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rx.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxRelay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -3978,7 +3978,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/RxRelay/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rx.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxRelay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -3994,7 +3994,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/RxRelay/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rx.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxRelay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -4010,7 +4010,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/RxCocoa/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rx.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxCocoa;
 				PRODUCT_NAME = RxCocoa;
 				SKIP_INSTALL = YES;
 			};
@@ -4026,7 +4026,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/RxCocoa/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rx.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxCocoa;
 				PRODUCT_NAME = RxCocoa;
 				SKIP_INSTALL = YES;
 			};
@@ -4042,7 +4042,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/RxCocoa/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.rx.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzvil.BuzzRxCocoa;
 				PRODUCT_NAME = RxCocoa;
 				SKIP_INSTALL = YES;
 			};
@@ -4713,7 +4713,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A2897D4F225CA1E7004EA481 /* Build configuration list for PBXNativeTarget "RxRelay" */ = {
+		A2897D4F225CA1E7004EA481 /* Build configuration list for PBXNativeTarget "BuzzRxRelay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A2897D50225CA1E7004EA481 /* Debug */,
@@ -4723,7 +4723,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C80939691B8A71760088E94D /* Build configuration list for PBXNativeTarget "RxCocoa" */ = {
+		C80939691B8A71760088E94D /* Build configuration list for PBXNativeTarget "BuzzRxCocoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C809396A1B8A71760088E94D /* Debug */,

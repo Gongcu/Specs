@@ -9,7 +9,7 @@
 import Foundation
 
 // Importing RxCocoa also imports RxRelay
-@_exported import RxRelay
+@_exported import BuzzRxRelay
 
 import BuzzRxSwift
 #if os(iOS)

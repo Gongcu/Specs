@@ -7,7 +7,6 @@
 //
 
 import BuzzRxSwift
-import BuzzRxRelay
 
 extension PublishRelay {
     /// Converts `PublishRelay` to `Signal`.

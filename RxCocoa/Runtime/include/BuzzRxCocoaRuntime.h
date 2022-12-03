@@ -1,5 +1,5 @@
 //
-//  RxCocoa.h
+//  BuzzRxCocoaRuntime.h
 //  RxCocoa
 //
 //  Created by Krunoslav Zaher on 2/21/15.
@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RxCocoa/_BRX.h>
-#import <RxCocoa/_BRXDelegateProxy.h>
-#import <RxCocoa/_BRXKVOObserver.h>
-#import <RxCocoa/_BRXObjCRuntime.h>
+#import "_BRX.h"
+#import "_BRXDelegateProxy.h"
+#import "_BRXKVOObserver.h"
+#import "_BRXObjCRuntime.h"
 
 //! Project version number for RxCocoa.
 FOUNDATION_EXPORT double BuzzRxCocoaVersionNumber;

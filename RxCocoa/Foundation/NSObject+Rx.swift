@@ -11,7 +11,7 @@
 import Foundation
 import BuzzRxSwift
 #if SWIFT_PACKAGE && !DISABLE_SWIZZLING && !os(Linux)
-    import RxCocoaRuntime
+    import BuzzRxCocoaRuntime
 #endif
 
 #if !DISABLE_SWIZZLING && !os(Linux)
@@ -228,8 +228,8 @@ extension Reactive where Base: AnyObject {
     }
 
     private func registerMessageInterceptor<T: MessageInterceptorSubject>(_ selector: Selector) throws -> T {
-        let rxSelector = RX_selector(selector)
-        let selectorReference = RX_reference_from_selector(rxSelector)
+        let rxSelector = BRX_selector(selector)
+        let selectorReference = BRX_reference_from_selector(rxSelector)
 
         let subject: T
         if let existingSubject = objc_getAssociatedObject(self.base, selectorReference) as? T {
@@ -250,7 +250,7 @@ extension Reactive where Base: AnyObject {
         }
 
         var error: NSError?
-        let targetImplementation = RX_ensure_observing(self.base, selector, &error)
+        let targetImplementation = BRX_ensure_observing(self.base, selector, &error)
         if targetImplementation == nil {
             throw error?.rxCocoaErrorForTarget(self.base) ?? RxCocoaError.unknown
         }
@@ -278,15 +278,15 @@ extension Reactive where Base: AnyObject {
 
     private final class DeallocatingProxy
         : MessageInterceptorSubject
-        , RXDeallocatingObserver {
+        , BRXDeallocatingObserver {
         typealias Element = ()
 
         let messageSent = ReplaySubject<()>.create(bufferSize: 1)
 
-        @objc var targetImplementation: IMP = RX_default_target_implementation()
+        @objc var targetImplementation: IMP = BRX_default_target_implementation()
 
         var isActive: Bool {
-            return self.targetImplementation != RX_default_target_implementation()
+            return self.targetImplementation != BRX_default_target_implementation()
         }
 
         init() {
@@ -303,16 +303,16 @@ extension Reactive where Base: AnyObject {
 
     private final class MessageSentProxy
         : MessageInterceptorSubject
-        , RXMessageSentObserver {
+        , BRXMessageSentObserver {
         typealias Element = [AnyObject]
 
         let messageSent = PublishSubject<[Any]>()
         let methodInvoked = PublishSubject<[Any]>()
 
-        @objc var targetImplementation: IMP = RX_default_target_implementation()
+        @objc var targetImplementation: IMP = BRX_default_target_implementation()
 
         var isActive: Bool {
-            return self.targetImplementation != RX_default_target_implementation()
+            return self.targetImplementation != BRX_default_target_implementation()
         }
 
         init() {
@@ -359,7 +359,7 @@ private protocol KVOObservableProtocol {
 }
 
 private final class KVOObserver
-    : _RXKVOObserver
+    : _BRXKVOObserver
     , Disposable {
     typealias Callback = (Any?) -> Void
 

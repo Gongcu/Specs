@@ -10,13 +10,13 @@
 
     import BuzzRxSwift
     #if SWIFT_PACKAGE && !os(Linux)
-        import RxCocoaRuntime
+        import BuzzRxCocoaRuntime
     #endif
 
     /// Base class for `DelegateProxyType` protocol.
     ///
     /// This implementation is not thread safe and can be used only from one thread (Main thread).
-    open class DelegateProxy<P: AnyObject, D>: _RXDelegateProxy {
+    open class DelegateProxy<P: AnyObject, D>: _BRXDelegateProxy {
         public typealias ParentObject = P
         public typealias Delegate = D
 

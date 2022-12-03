@@ -1,5 +1,5 @@
 //
-//  _RXObjCRuntime.h
+//  _BRXObjCRuntime.h
 //  RxCocoa
 //
 //  Created by Krunoslav Zaher on 7/11/15.
@@ -12,7 +12,7 @@
 
 /**
  ################################################################################
- This file is part of RX private API
+ This file is part of BRX private API
  ################################################################################
  */
 
@@ -35,34 +35,34 @@
  Default value is `NO`.
 
  */
-extern BOOL RXAbortOnThreadingHazard;
+extern BOOL BRXAbortOnThreadingHazard;
 
-/// Error domain for RXObjCRuntime.
-extern NSString * __nonnull const RXObjCRuntimeErrorDomain;
+/// Error domain for BRXObjCRuntime.
+extern NSString * __nonnull const BRXObjCRuntimeErrorDomain;
 
 /// `userInfo` key with additional information is interceptor probably KVO.
-extern NSString * __nonnull const RXObjCRuntimeErrorIsKVOKey;
+extern NSString * __nonnull const BRXObjCRuntimeErrorIsKVOKey;
 
-typedef NS_ENUM(NSInteger, RXObjCRuntimeError) {
-    RXObjCRuntimeErrorUnknown                                           = 1,
-    RXObjCRuntimeErrorObjectMessagesAlreadyBeingIntercepted             = 2,
-    RXObjCRuntimeErrorSelectorNotImplemented                            = 3,
-    RXObjCRuntimeErrorCantInterceptCoreFoundationTollFreeBridgedObjects = 4,
-    RXObjCRuntimeErrorThreadingCollisionWithOtherInterceptionMechanism  = 5,
-    RXObjCRuntimeErrorSavingOriginalForwardingMethodFailed              = 6,
-    RXObjCRuntimeErrorReplacingMethodWithForwardingImplementation       = 7,
-    RXObjCRuntimeErrorObservingPerformanceSensitiveMessages             = 8,
-    RXObjCRuntimeErrorObservingMessagesWithUnsupportedReturnType        = 9,
+typedef NS_ENUM(NSInteger, BRXObjCRuntimeError) {
+    BRXObjCRuntimeErrorUnknown                                           = 1,
+    BRXObjCRuntimeErrorObjectMessagesAlreadyBeingIntercepted             = 2,
+    BRXObjCRuntimeErrorSelectorNotImplemented                            = 3,
+    BRXObjCRuntimeErrorCantInterceptCoreFoundationTollFreeBridgedObjects = 4,
+    BRXObjCRuntimeErrorThreadingCollisionWithOtherInterceptionMechanism  = 5,
+    BRXObjCRuntimeErrorSavingOriginalForwardingMethodFailed              = 6,
+    BRXObjCRuntimeErrorReplacingMethodWithForwardingImplementation       = 7,
+    BRXObjCRuntimeErrorObservingPerformanceSensitiveMessages             = 8,
+    BRXObjCRuntimeErrorObservingMessagesWithUnsupportedReturnType        = 9,
 };
 
-/// Transforms normal selector into a selector with RX prefix.
-SEL _Nonnull RX_selector(SEL _Nonnull selector);
+/// Transforms normal selector into a selector with BRX prefix.
+SEL _Nonnull BRX_selector(SEL _Nonnull selector);
 
 /// Transforms selector into a unique pointer (because of Swift conversion rules)
-void * __nonnull RX_reference_from_selector(SEL __nonnull selector);
+void * __nonnull BRX_reference_from_selector(SEL __nonnull selector);
 
 /// Protocol that interception observers must implement.
-@protocol RXMessageSentObserver
+@protocol BRXMessageSentObserver
 
 /// In case the same selector is being intercepted for a pair of base/sub classes,
 /// this property will differentiate between interceptors that need to fire.
@@ -74,7 +74,7 @@ void * __nonnull RX_reference_from_selector(SEL __nonnull selector);
 @end
 
 /// Protocol that deallocating observer must implement.
-@protocol RXDeallocatingObserver
+@protocol BRXDeallocatingObserver
 
 /// In case the same selector is being intercepted for a pair of base/sub classes,
 /// this property will differentiate between interceptors that need to fire.
@@ -85,18 +85,18 @@ void * __nonnull RX_reference_from_selector(SEL __nonnull selector);
 @end
 
 /// Ensures interceptor is installed on target object.
-IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, NSError *__autoreleasing __nullable * __nullable error);
+IMP __nullable BRX_ensure_observing(id __nonnull target, SEL __nonnull selector, NSError *__autoreleasing __nullable * __nullable error);
 
 #endif
 
 /// Extracts arguments for `invocation`.
-NSArray * __nonnull RX_extract_arguments(NSInvocation * __nonnull invocation);
+NSArray * __nonnull BRX_extract_arguments(NSInvocation * __nonnull invocation);
 
 /// Returns `YES` in case method has `void` return type.
-BOOL RX_is_method_with_description_void(struct objc_method_description method);
+BOOL BRX_is_method_with_description_void(struct objc_method_description method);
 
 /// Returns `YES` in case methodSignature has `void` return type.
-BOOL RX_is_method_signature_void(NSMethodSignature * __nonnull methodSignature);
+BOOL BRX_is_method_signature_void(NSMethodSignature * __nonnull methodSignature);
 
-/// Default value for `RXInterceptionObserver.targetImplementation`.
-IMP __nonnull RX_default_target_implementation(void);
+/// Default value for `BRXInterceptionObserver.targetImplementation`.
+IMP __nonnull BRX_default_target_implementation(void);

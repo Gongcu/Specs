@@ -7,7 +7,7 @@
 //
 
 #if SWIFT_PACKAGE && !DISABLE_SWIZZLING && !os(Linux)
-    import RxCocoaRuntime
+    import BuzzRxCocoaRuntime
 #endif
 
 #if !DISABLE_SWIZZLING && !os(Linux)
@@ -40,7 +40,7 @@
 
         Failure scenario:
         * KVO sets class to be `__KVO__OriginalClass` (subclass of `OriginalClass`)
-        * `sentMessage` sets object class to be `_RX_namespace___KVO__OriginalClass` (subclass of `__KVO__OriginalClass`)
+        * `sentMessage` sets object class to be `_BRX_namespace___KVO__OriginalClass` (subclass of `__KVO__OriginalClass`)
         * then unobserving with KVO will restore class to be `OriginalClass` -> failure point (possibly a bug in KVO)
 
         The reason why changing order of observing works is because any interception method on unregistration 
@@ -70,7 +70,7 @@
         /// it's meta-class.
         case threadingCollisionWithOtherInterceptionMechanism(target: AnyObject)
 
-        /// For some reason saving original method implementation under RX namespace failed.
+        /// For some reason saving original method implementation under BRX namespace failed.
         case savingOriginalForwardingMethodFailed(target: AnyObject)
 
         /// Intercepting a sent message by replacing a method implementation with `_objc_msgForward` failed for some reason.
@@ -125,14 +125,14 @@
         func rxCocoaErrorForTarget(_ target: AnyObject) -> RxCocoaObjCRuntimeError {
             let error = self as NSError
             
-            if error.domain == RXObjCRuntimeErrorDomain {
-                let errorCode = RXObjCRuntimeError(rawValue: error.code) ?? .unknown
+            if error.domain == BRXObjCRuntimeErrorDomain {
+                let errorCode = BRXObjCRuntimeError(rawValue: error.code) ?? .unknown
                 
                 switch errorCode {
                 case .unknown:
                     return .unknown(target: target)
                 case .objectMessagesAlreadyBeingIntercepted:
-                    let isKVO = (error.userInfo[RXObjCRuntimeErrorIsKVOKey] as? NSNumber)?.boolValue ?? false
+                    let isKVO = (error.userInfo[BRXObjCRuntimeErrorIsKVOKey] as? NSNumber)?.boolValue ?? false
                     return .objectMessagesAlreadyBeingIntercepted(target: target, interceptionMechanism: isKVO ? .kvo : .unknown)
                 case .selectorNotImplemented:
                     return .selectorNotImplemented(target: target)

@@ -1,16 +1,16 @@
 //
-//  _RXDelegateProxy.m
+//  _BRXDelegateProxy.m
 //  RxCocoa
 //
 //  Created by Krunoslav Zaher on 7/4/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-#import "include/_RXDelegateProxy.h"
-#import "include/_RX.h"
-#import "include/_RXObjCRuntime.h"
+#import "include/_BRXDelegateProxy.h"
+#import "include/_BRX.h"
+#import "include/_BRXObjCRuntime.h"
 
-@interface _RXDelegateProxy () {
+@interface _BRXDelegateProxy () {
     id __weak __forwardToDelegate;
 }
 
@@ -20,7 +20,7 @@
 
 static NSMutableDictionary *voidSelectorsPerClass = nil;
 
-@implementation _RXDelegateProxy
+@implementation _BRXDelegateProxy
 
 +(NSSet*)collectVoidSelectorsForProtocol:(Protocol *)protocol {
     NSMutableSet *selectors = [NSMutableSet set];
@@ -30,7 +30,7 @@ static NSMutableDictionary *voidSelectorsPerClass = nil;
 
     for (unsigned int i = 0; i < protocolMethodCount; ++i) {
         struct objc_method_description method = pMethods[i];
-        if (RX_is_method_with_description_void(method)) {
+        if (BRX_is_method_with_description_void(method)) {
             [selectors addObject:SEL_VALUE(method.name)];
         }
     }
@@ -50,7 +50,7 @@ static NSMutableDictionary *voidSelectorsPerClass = nil;
 }
 
 +(void)initialize {
-    @synchronized (_RXDelegateProxy.class) {
+    @synchronized (_BRXDelegateProxy.class) {
         if (voidSelectorsPerClass == nil) {
             voidSelectorsPerClass = [[NSMutableDictionary alloc] init];
         }
@@ -107,7 +107,7 @@ static NSMutableDictionary *voidSelectorsPerClass = nil;
 }
 
 -(BOOL)voidDelegateMethodsContain:(SEL)selector {
-    @synchronized(_RXDelegateProxy.class) {
+    @synchronized(_BRXDelegateProxy.class) {
         NSSet *voidSelectors = voidSelectorsPerClass[CLASS_VALUE(self.class)];
         NSAssert(voidSelectors != nil, @"Set of allowed methods not initialized");
         return [voidSelectors containsObject:SEL_VALUE(selector)];
@@ -115,10 +115,10 @@ static NSMutableDictionary *voidSelectorsPerClass = nil;
 }
 
 -(void)forwardInvocation:(NSInvocation *)anInvocation {
-    BOOL isVoid = RX_is_method_signature_void(anInvocation.methodSignature);
+    BOOL isVoid = BRX_is_method_signature_void(anInvocation.methodSignature);
     NSArray *arguments = nil;
     if (isVoid) {
-        arguments = RX_extract_arguments(anInvocation);
+        arguments = BRX_extract_arguments(anInvocation);
         [self _sentMessage:anInvocation.selector withArguments:arguments];
     }
     

@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
   s.exclude_files         = 'RxCocoa/Platform/**/*.swift', 'Platform/AtomicInt.swift'
 
   s.dependency 'BuzzRxSwift', '6.5.0'
-  s.dependency 'BuzzRxRelay', '6.5.0'
 
   s.swift_version = '5.5'
 end

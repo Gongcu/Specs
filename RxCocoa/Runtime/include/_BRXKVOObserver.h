@@ -1,5 +1,5 @@
 //
-//  _RXKVOObserver.h
+//  _BRXKVOObserver.h
 //  RxCocoa
 //
 //  Created by Krunoslav Zaher on 7/11/15.
@@ -10,12 +10,12 @@
 
 /**
  ################################################################################
- This file is part of RX private API
+ This file is part of BRX private API
  ################################################################################
  */
 
 // Exists because if written in Swift, reading unowned is disabled during dealloc process
-@interface _RXKVOObserver : NSObject
+@interface _BRXKVOObserver : NSObject
 
 -(instancetype)initWithTarget:(id)target
                  retainTarget:(BOOL)retainTarget

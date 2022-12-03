@@ -7,7 +7,6 @@
 //
 
 import BuzzRxSwift
-import BuzzRxRelay
 
 extension BehaviorRelay {
     /// Converts `BehaviorRelay` to `Driver`.

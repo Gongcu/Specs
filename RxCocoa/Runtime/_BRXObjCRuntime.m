@@ -1,5 +1,5 @@
 //
-//  _RXObjCRuntime.m
+//  _BRXObjCRuntime.m
 //  RxCocoa
 //
 //  Created by Krunoslav Zaher on 7/11/15.
@@ -13,8 +13,8 @@
 #import <libkern/OSAtomic.h>
 #import <stdatomic.h>
 
-#import "include/_RX.h"
-#import "include/_RXObjCRuntime.h"
+#import "include/_BRX.h"
+#import "include/_BRXObjCRuntime.h"
 
 // self + cmd
 #define HIDDEN_ARGUMENT_COUNT   2
@@ -23,9 +23,9 @@
 
 #define NSErrorParam NSError *__autoreleasing __nullable * __nullable
 
-@class RXObjCRuntime;
+@class BRXObjCRuntime;
 
-BOOL RXAbortOnThreadingHazard = NO;
+BOOL BRXAbortOnThreadingHazard = NO;
 
 typedef NSInvocation       *NSInvocationRef;
 typedef NSMethodSignature  *NSMethodSignatureRef;
@@ -34,7 +34,7 @@ typedef unsigned short      rx_ushort;
 typedef unsigned int        rx_uint;
 typedef unsigned long       rx_ulong;
 typedef id (^rx_block)(id);
-typedef BOOL (^RXInterceptWithOptimizedObserver)(RXObjCRuntime * __nonnull self, Class __nonnull class, SEL __nonnull selector, NSErrorParam error);
+typedef BOOL (^BRXInterceptWithOptimizedObserver)(BRXObjCRuntime * __nonnull self, Class __nonnull class, SEL __nonnull selector, NSErrorParam error);
 
 static CFTypeID  defaultTypeID;
 static SEL       deallocSelector;
@@ -47,28 +47,28 @@ _Atomic static int32_t numberOfForwardedMethods = 0;
 #endif
 
 #define THREADING_HAZARD(class) \
-    NSLog(@"There was a problem swizzling on `%@`.\nYou have probably two libraries performing swizzling in runtime.\nWe didn't want to crash your program, but this is not good ...\nYou an solve this problem by either not using swizzling in this library, removing one of those other libraries, or making sure that swizzling parts are synchronized (only perform them on main thread).\nAnd yes, this message will self destruct when you clear the console, and since it's non deterministic, the problem could still exist and it will be hard for you to reproduce it.", NSStringFromClass(class)); ABORT_IN_DEBUG if (RXAbortOnThreadingHazard) { abort(); }
+    NSLog(@"There was a problem swizzling on `%@`.\nYou have probably two libraries performing swizzling in runtime.\nWe didn't want to crash your program, but this is not good ...\nYou an solve this problem by either not using swizzling in this library, removing one of those other libraries, or making sure that swizzling parts are synchronized (only perform them on main thread).\nAnd yes, this message will self destruct when you clear the console, and since it's non deterministic, the problem could still exist and it will be hard for you to reproduce it.", NSStringFromClass(class)); ABORT_IN_DEBUG if (BRXAbortOnThreadingHazard) { abort(); }
 
-#define ALWAYS(condition, message) if (!(condition)) { [NSException raise:@"RX Invalid Operator" format:@"%@", message]; }
+#define ALWAYS(condition, message) if (!(condition)) { [NSException raise:@"BRX Invalid Operator" format:@"%@", message]; }
 #define ALWAYS_WITH_INFO(condition, message) NSAssert((condition), @"%@ [%@] > %@", NSStringFromClass(class), NSStringFromSelector(selector), (message))
 #define C_ALWAYS(condition, message) NSCAssert((condition), @"%@ [%@] > %@", NSStringFromClass(class), NSStringFromSelector(selector), (message))
 
-#define RX_PREFIX @"_RX_namespace_"
+#define BRX_PREFIX @"_BRX_namespace_"
 
-#define RX_ARG_id(value)           ((value) ?: [NSNull null])
-#define RX_ARG_char(value)         [NSNumber numberWithChar:value]
-#define RX_ARG_short(value)        [NSNumber numberWithShort:value]
-#define RX_ARG_int(value)          [NSNumber numberWithInt:value]
-#define RX_ARG_long(value)         [NSNumber numberWithLong:value]
-#define RX_ARG_BOOL(value)         [NSNumber numberWithBool:value]
-#define RX_ARG_SEL(value)          [NSNumber valueWithPointer:value]
-#define RX_ARG_rx_uchar(value)     [NSNumber numberWithUnsignedInt:value]
-#define RX_ARG_rx_ushort(value)    [NSNumber numberWithUnsignedInt:value]
-#define RX_ARG_rx_uint(value)      [NSNumber numberWithUnsignedInt:value]
-#define RX_ARG_rx_ulong(value)     [NSNumber numberWithUnsignedLong:value]
-#define RX_ARG_rx_block(value)     ((id)(value) ?: [NSNull null])
-#define RX_ARG_float(value)        [NSNumber numberWithFloat:value]
-#define RX_ARG_double(value)       [NSNumber numberWithDouble:value]
+#define BRX_ARG_id(value)           ((value) ?: [NSNull null])
+#define BRX_ARG_char(value)         [NSNumber numberWithChar:value]
+#define BRX_ARG_short(value)        [NSNumber numberWithShort:value]
+#define BRX_ARG_int(value)          [NSNumber numberWithInt:value]
+#define BRX_ARG_long(value)         [NSNumber numberWithLong:value]
+#define BRX_ARG_BOOL(value)         [NSNumber numberWithBool:value]
+#define BRX_ARG_SEL(value)          [NSNumber valueWithPointer:value]
+#define BRX_ARG_rx_uchar(value)     [NSNumber numberWithUnsignedInt:value]
+#define BRX_ARG_rx_ushort(value)    [NSNumber numberWithUnsignedInt:value]
+#define BRX_ARG_rx_uint(value)      [NSNumber numberWithUnsignedInt:value]
+#define BRX_ARG_rx_ulong(value)     [NSNumber numberWithUnsignedLong:value]
+#define BRX_ARG_rx_block(value)     ((id)(value) ?: [NSNull null])
+#define BRX_ARG_float(value)        [NSNumber numberWithFloat:value]
+#define BRX_ARG_double(value)       [NSNumber numberWithDouble:value]
 
 typedef struct supported_type {
     const char *encoding;
@@ -95,10 +95,10 @@ static supported_type_t supported_types[] = {
     { .encoding = @encode(const char*)},
 };
 
-NSString * __nonnull const RXObjCRuntimeErrorDomain   = @"RXObjCRuntimeErrorDomain";
-NSString * __nonnull const RXObjCRuntimeErrorIsKVOKey = @"RXObjCRuntimeErrorIsKVOKey";
+NSString * __nonnull const BRXObjCRuntimeErrorDomain   = @"BRXObjCRuntimeErrorDomain";
+NSString * __nonnull const BRXObjCRuntimeErrorIsKVOKey = @"BRXObjCRuntimeErrorIsKVOKey";
 
-BOOL RX_return_type_is_supported(const char *type) {
+BOOL BRX_return_type_is_supported(const char *type) {
     if (type == nil) {
         return NO;
     }
@@ -115,33 +115,33 @@ BOOL RX_return_type_is_supported(const char *type) {
     return NO;
 }
 
-static BOOL RX_method_has_supported_return_type(Method method) {
+static BOOL BRX_method_has_supported_return_type(Method method) {
     const char *rawEncoding = method_getTypeEncoding(method);
     ALWAYS(rawEncoding != nil, @"Example encoding method is nil.");
 
     NSMethodSignature *methodSignature = [NSMethodSignature signatureWithObjCTypes:rawEncoding];
     ALWAYS(methodSignature != nil, @"Method signature method is nil.");
 
-    return RX_return_type_is_supported(methodSignature.methodReturnType);
+    return BRX_return_type_is_supported(methodSignature.methodReturnType);
 }
 
-SEL __nonnull RX_selector(SEL __nonnull selector) {
+SEL __nonnull BRX_selector(SEL __nonnull selector) {
     NSString *selectorString = NSStringFromSelector(selector);
-    return NSSelectorFromString([RX_PREFIX stringByAppendingString:selectorString]);
+    return NSSelectorFromString([BRX_PREFIX stringByAppendingString:selectorString]);
 }
 
 #endif
 
-BOOL RX_is_method_signature_void(NSMethodSignature * __nonnull methodSignature) {
+BOOL BRX_is_method_signature_void(NSMethodSignature * __nonnull methodSignature) {
     const char *methodReturnType = methodSignature.methodReturnType;
     return strcmp(methodReturnType, @encode(void)) == 0;
 }
 
-BOOL RX_is_method_with_description_void(struct objc_method_description method) {
+BOOL BRX_is_method_with_description_void(struct objc_method_description method) {
     return strncmp(method.types, @encode(void), 1) == 0;
 }
 
-id __nonnull RX_extract_argument_at_index(NSInvocation * __nonnull invocation, NSUInteger index) {
+id __nonnull BRX_extract_argument_at_index(NSInvocation * __nonnull invocation, NSUInteger index) {
     const char *argumentType = [invocation.methodSignature getArgumentTypeAtIndex:index];
     
 #define RETURN_VALUE(type) \
@@ -189,7 +189,7 @@ id __nonnull RX_extract_argument_at_index(NSInvocation * __nonnull invocation, N
     }
 }
 
-NSArray *RX_extract_arguments(NSInvocation *invocation) {
+NSArray *BRX_extract_arguments(NSInvocation *invocation) {
     NSUInteger numberOfArguments = invocation.methodSignature.numberOfArguments;
     NSUInteger numberOfVisibleArguments = numberOfArguments - HIDDEN_ARGUMENT_COUNT;
     
@@ -198,29 +198,29 @@ NSArray *RX_extract_arguments(NSInvocation *invocation) {
     NSMutableArray *arguments = [NSMutableArray arrayWithCapacity:numberOfVisibleArguments];
     
     for (NSUInteger index = HIDDEN_ARGUMENT_COUNT; index < numberOfArguments; ++index) {
-        [arguments addObject:RX_extract_argument_at_index(invocation, index) ?: [NSNull null]];
+        [arguments addObject:BRX_extract_argument_at_index(invocation, index) ?: [NSNull null]];
     }
     
     return arguments;
 }
 
-IMP __nonnull RX_default_target_implementation(void) {
+IMP __nonnull BRX_default_target_implementation(void) {
     return _objc_msgForward;
 }
 
 #if !DISABLE_SWIZZLING
 
-void * __nonnull RX_reference_from_selector(SEL __nonnull selector) {
+void * __nonnull BRX_reference_from_selector(SEL __nonnull selector) {
     return selector;
 }
 
-static BOOL RX_forward_invocation(id __nonnull __unsafe_unretained self, NSInvocation *invocation) {
-    SEL originalSelector = RX_selector(invocation.selector);
+static BOOL BRX_forward_invocation(id __nonnull __unsafe_unretained self, NSInvocation *invocation) {
+    SEL originalSelector = BRX_selector(invocation.selector);
 
-    id<RXMessageSentObserver> messageSentObserver = objc_getAssociatedObject(self, originalSelector);
+    id<BRXMessageSentObserver> messageSentObserver = objc_getAssociatedObject(self, originalSelector);
 
     if (messageSentObserver != nil) {
-        NSArray *arguments = RX_extract_arguments(invocation);
+        NSArray *arguments = BRX_extract_arguments(invocation);
         [messageSentObserver messageSentWithArguments:arguments];
     }
 
@@ -229,7 +229,7 @@ static BOOL RX_forward_invocation(id __nonnull __unsafe_unretained self, NSInvoc
         [invocation invokeWithTarget:self];
 
         if (messageSentObserver != nil) {
-            NSArray *arguments = RX_extract_arguments(invocation);
+            NSArray *arguments = BRX_extract_arguments(invocation);
             [messageSentObserver methodInvokedWithArguments:arguments];
         }
 
@@ -239,7 +239,7 @@ static BOOL RX_forward_invocation(id __nonnull __unsafe_unretained self, NSInvoc
     return NO;
 }
 
-static BOOL RX_responds_to_selector(id __nonnull __unsafe_unretained self, SEL selector) {
+static BOOL BRX_responds_to_selector(id __nonnull __unsafe_unretained self, SEL selector) {
     Class class = object_getClass(self);
     if (class == nil) { return NO; }
 
@@ -248,7 +248,7 @@ static BOOL RX_responds_to_selector(id __nonnull __unsafe_unretained self, SEL s
 
 }
 
-static NSMethodSignatureRef RX_method_signature(id __nonnull __unsafe_unretained self, SEL selector) {
+static NSMethodSignatureRef BRX_method_signature(id __nonnull __unsafe_unretained self, SEL selector) {
     Class class = object_getClass(self);
     if (class == nil) { return nil; }
 
@@ -261,7 +261,7 @@ static NSMethodSignatureRef RX_method_signature(id __nonnull __unsafe_unretained
     return [NSMethodSignature signatureWithObjCTypes:encoding];
 }
 
-static NSString * __nonnull RX_method_encoding(Method __nonnull method) {
+static NSString * __nonnull BRX_method_encoding(Method __nonnull method) {
     const char *typeEncoding = method_getTypeEncoding(method);
     ALWAYS(typeEncoding != nil, @"Method encoding is nil.");
 
@@ -270,7 +270,7 @@ static NSString * __nonnull RX_method_encoding(Method __nonnull method) {
     return encoding;
 }
 
-@interface RXObjCRuntime: NSObject
+@interface BRXObjCRuntime: NSObject
 
 @property (nonatomic, assign) pthread_mutex_t lock;
 
@@ -280,9 +280,9 @@ static NSString * __nonnull RX_method_encoding(Method __nonnull method) {
 @property (nonatomic, strong) NSMutableDictionary<NSValue *, Class> *dynamicSubclassByRealClass;
 @property (nonatomic, strong) NSMutableDictionary<NSValue *, NSMutableDictionary<NSValue*, NSValue *>*> *interceptorIMPbySelectorsByClass;
 
-+(RXObjCRuntime*)instance;
++(BRXObjCRuntime*)instance;
 
--(void)performLocked:(void (^)(RXObjCRuntime* __nonnull))action;
+-(void)performLocked:(void (^)(BRXObjCRuntime* __nonnull))action;
 -(IMP __nullable)ensurePrepared:(id __nonnull)target forObserving:(SEL __nonnull)selector error:(NSErrorParam)error;
 -(BOOL)ensureSwizzledSelector:(SEL __nonnull)selector
                       ofClass:(Class __nonnull)class
@@ -291,15 +291,15 @@ replacementImplementationGenerator:(IMP (^)(IMP originalImplementation))replacem
                         error:(NSErrorParam)error;
 
 
-+(void)registerOptimizedObserver:(RXInterceptWithOptimizedObserver)registration encodedAs:(SEL)selector;
++(void)registerOptimizedObserver:(BRXInterceptWithOptimizedObserver)registration encodedAs:(SEL)selector;
 
 @end
 
 /**
- All API methods perform work on locked instance of `RXObjCRuntime`. In that way it's easy to prove
+ All API methods perform work on locked instance of `BRXObjCRuntime`. In that way it's easy to prove
  that every action is properly locked.
  */
-IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, NSErrorParam error) {
+IMP __nullable BRX_ensure_observing(id __nonnull target, SEL __nonnull selector, NSErrorParam error) {
     __block IMP targetImplementation = nil;
     // Target is the second object that needs to be synchronized to TRY to make sure other swizzling framework
     // won't do something in parallel.
@@ -313,7 +313,7 @@ IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, 
         // It's like trying to figure out how to communicate with aliens without actually communicating,
         // save for the fact that aliens are people, programmers, authors of swizzling libraries.
         @synchronized([target class]) {
-            [[RXObjCRuntime instance] performLocked:^(RXObjCRuntime * __nonnull self) {
+            [[BRXObjCRuntime instance] performLocked:^(BRXObjCRuntime * __nonnull self) {
                 targetImplementation = [self ensurePrepared:target
                                                forObserving:selector
                                                       error:error];
@@ -326,26 +326,26 @@ IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, 
 
 // bodies
 
-#define FORWARD_BODY(invocation)                        if (RX_forward_invocation(self, NAME_CAT(_, 0, invocation))) { return; }
+#define FORWARD_BODY(invocation)                        if (BRX_forward_invocation(self, NAME_CAT(_, 0, invocation))) { return; }
 
-#define RESPONDS_TO_SELECTOR_BODY(selector)             if (RX_responds_to_selector(self, NAME_CAT(_, 0, selector))) return YES;
+#define RESPONDS_TO_SELECTOR_BODY(selector)             if (BRX_responds_to_selector(self, NAME_CAT(_, 0, selector))) return YES;
 
 #define CLASS_BODY(...)                                 return actAsClass;
 
 #define METHOD_SIGNATURE_FOR_SELECTOR_BODY(selector)                                            \
-    NSMethodSignatureRef methodSignature = RX_method_signature(self, NAME_CAT(_, 0, selector)); \
+    NSMethodSignatureRef methodSignature = BRX_method_signature(self, NAME_CAT(_, 0, selector)); \
     if (methodSignature != nil) {                                                               \
         return methodSignature;                                                                 \
     }
 
 #define DEALLOCATING_BODY(...)                                                        \
-    id<RXDeallocatingObserver> observer = objc_getAssociatedObject(self, rxSelector); \
+    id<BRXDeallocatingObserver> observer = objc_getAssociatedObject(self, rxSelector); \
     if (observer != nil && observer.targetImplementation == thisIMP) {                \
         [observer deallocating];                                                      \
     }
 
 #define OBSERVE_BODY(...)                                                              \
-    id<RXMessageSentObserver> observer = objc_getAssociatedObject(self, rxSelector);   \
+    id<BRXMessageSentObserver> observer = objc_getAssociatedObject(self, rxSelector);   \
                                                                                        \
     if (observer != nil && observer.targetImplementation == thisIMP) {                 \
         [observer messageSentWithArguments:@[COMMA_DELIMITED_ARGUMENTS(__VA_ARGS__)]]; \
@@ -358,29 +358,29 @@ IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, 
     }                                                                                    \
 
 
-#define BUILD_ARG_WRAPPER(type)                   RX_ARG_ ## type                                                     //RX_ARG_ ## type
+#define BUILD_ARG_WRAPPER(type)                   BRX_ARG_ ## type                                                     //BRX_ARG_ ## type
 
-#define CAT(_1, _2, head, tail)                   RX_CAT2(head, tail)
+#define CAT(_1, _2, head, tail)                   BRX_CAT2(head, tail)
 #define SEPARATE_BY_COMMA(_1, _2, head, tail)     head, tail
 #define SEPARATE_BY_SPACE(_1, _2, head, tail)     head tail
-#define SEPARATE_BY_UNDERSCORE(head, tail)        RX_CAT2(RX_CAT2(head, _), tail)
+#define SEPARATE_BY_UNDERSCORE(head, tail)        BRX_CAT2(BRX_CAT2(head, _), tail)
 
-#define UNDERSCORE_TYPE_CAT(_1, index, type)      RX_CAT2(_, type)                                                    // generates -> _type
+#define UNDERSCORE_TYPE_CAT(_1, index, type)      BRX_CAT2(_, type)                                                    // generates -> _type
 #define NAME_CAT(_1, index, type)                 SEPARATE_BY_UNDERSCORE(type, index)                                 // generates -> type_0
 #define TYPE_AND_NAME_CAT(_1, index, type)        type SEPARATE_BY_UNDERSCORE(type, index)                            // generates -> type type_0
 #define NOT_NULL_ARGUMENT_CAT(_1, index, type)    BUILD_ARG_WRAPPER(type)(NAME_CAT(_1, index, type))                  // generates -> ((id)(type_0) ?: [NSNull null])
-#define EXAMPLE_PARAMETER(_1, index, type)        RX_CAT2(_, type):(type)SEPARATE_BY_UNDERSCORE(type, index)          // generates -> _type:(type)type_0
-#define SELECTOR_PART(_1, index, type)            RX_CAT2(_, type:)                                                   // generates -> _type:
+#define EXAMPLE_PARAMETER(_1, index, type)        BRX_CAT2(_, type):(type)SEPARATE_BY_UNDERSCORE(type, index)          // generates -> _type:(type)type_0
+#define SELECTOR_PART(_1, index, type)            BRX_CAT2(_, type:)                                                   // generates -> _type:
 
-#define COMMA_DELIMITED_ARGUMENTS(...)            RX_FOREACH(_, SEPARATE_BY_COMMA, NOT_NULL_ARGUMENT_CAT, ## __VA_ARGS__)
-#define ARGUMENTS(...)                            RX_FOREACH_COMMA(_, NAME_CAT, ## __VA_ARGS__)
-#define DECLARE_ARGUMENTS(...)                    RX_FOREACH_COMMA(_, TYPE_AND_NAME_CAT, ## __VA_ARGS__)
+#define COMMA_DELIMITED_ARGUMENTS(...)            BRX_FOREACH(_, SEPARATE_BY_COMMA, NOT_NULL_ARGUMENT_CAT, ## __VA_ARGS__)
+#define ARGUMENTS(...)                            BRX_FOREACH_COMMA(_, NAME_CAT, ## __VA_ARGS__)
+#define DECLARE_ARGUMENTS(...)                    BRX_FOREACH_COMMA(_, TYPE_AND_NAME_CAT, ## __VA_ARGS__)
 
 // optimized observe methods
 
-#define GENERATE_SELECTOR_IDENTIFIER(...)         RX_CAT2(exampleSelector, RX_FOREACH(_, CAT, UNDERSCORE_TYPE_CAT, ## __VA_ARGS__))
+#define GENERATE_SELECTOR_IDENTIFIER(...)         BRX_CAT2(exampleSelector, BRX_FOREACH(_, CAT, UNDERSCORE_TYPE_CAT, ## __VA_ARGS__))
 
-#define GENERATE_METHOD_IDENTIFIER(...)           RX_CAT2(swizzle, RX_FOREACH(_, CAT, UNDERSCORE_TYPE_CAT, ## __VA_ARGS__))
+#define GENERATE_METHOD_IDENTIFIER(...)           BRX_CAT2(swizzle, BRX_FOREACH(_, CAT, UNDERSCORE_TYPE_CAT, ## __VA_ARGS__))
 
 #define GENERATE_OBSERVE_METHOD_DECLARATION(...)                                 \
     -(BOOL)GENERATE_METHOD_IDENTIFIER(__VA_ARGS__):(Class __nonnull)class        \
@@ -389,10 +389,10 @@ IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, 
 
 
 #define BUILD_EXAMPLE_METHOD(return_value, ...) \
-    +(return_value)RX_CAT2(RX_CAT2(example_, return_value), RX_FOREACH(_, SEPARATE_BY_SPACE, EXAMPLE_PARAMETER, ## __VA_ARGS__)) {}
+    +(return_value)BRX_CAT2(BRX_CAT2(example_, return_value), BRX_FOREACH(_, SEPARATE_BY_SPACE, EXAMPLE_PARAMETER, ## __VA_ARGS__)) {}
 
 #define BUILD_EXAMPLE_METHOD_SELECTOR(return_value, ...) \
-    RX_CAT2(RX_CAT2(example_, return_value), RX_FOREACH(_, SEPARATE_BY_SPACE, SELECTOR_PART, ## __VA_ARGS__))
+    BRX_CAT2(BRX_CAT2(example_, return_value), BRX_FOREACH(_, SEPARATE_BY_SPACE, SELECTOR_PART, ## __VA_ARGS__))
 
 #define SWIZZLE_OBSERVE_METHOD_DEFINITIONS(return_value, ...) \
     BUILD_EXAMPLE_METHOD(return_value, ## __VA_ARGS__)                                                                                                  \
@@ -400,7 +400,7 @@ IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, 
 
 #define SWIZZLE_OBSERVE_METHOD_BODY(return_value, ...)                                                                                                       \
        __unused SEL GENERATE_SELECTOR_IDENTIFIER(return_value, ## __VA_ARGS__) = @selector(BUILD_EXAMPLE_METHOD_SELECTOR(return_value, ## __VA_ARGS__));                                           \
-       [self registerOptimizedObserver:^BOOL(RXObjCRuntime * __nonnull self, Class __nonnull class,                                                     \
+       [self registerOptimizedObserver:^BOOL(BRXObjCRuntime * __nonnull self, Class __nonnull class,                                                     \
             SEL __nonnull selector, NSErrorParam error) {                                                                                               \
             return [self GENERATE_METHOD_IDENTIFIER(return_value, ## __VA_ARGS__):class selector:selector error:error];                                 \
        } encodedAs:GENERATE_SELECTOR_IDENTIFIER(return_value, ## __VA_ARGS__)];                                                                                                                    \
@@ -419,7 +419,7 @@ IMP __nullable RX_ensure_observing(id __nonnull target, SEL __nonnull selector, 
 
 #define SWIZZLE_METHOD(return_value, method_prototype, body, invoked_body, ...)                                          \
 method_prototype                                                                                                         \
-    __unused SEL rxSelector = RX_selector(selector);                                                                     \
+    __unused SEL rxSelector = BRX_selector(selector);                                                                     \
     IMP (^newImplementationGenerator)(void) = ^() {                                                                      \
         __block IMP thisIMP = nil;                                                                                       \
         id newImplementation = ^return_value(__unsafe_unretained id self DECLARE_ARGUMENTS(__VA_ARGS__)) {               \
@@ -467,12 +467,12 @@ method_prototype                                                                
  }                                                                                                                       \
 
 
-@interface RXObjCRuntime (InfrastructureMethods)
+@interface BRXObjCRuntime (InfrastructureMethods)
 @end
 
 // MARK: Infrastructure Methods
 
-@implementation RXObjCRuntime (InfrastructureMethods)
+@implementation BRXObjCRuntime (InfrastructureMethods)
 
 SWIZZLE_INFRASTRUCTURE_METHOD(
     void,
@@ -517,11 +517,11 @@ SWIZZLE_INFRASTRUCTURE_METHOD(
 
 // MARK: Optimized intercepting methods for specific combination of parameter types
 
-@interface RXObjCRuntime (swizzle)
+@interface BRXObjCRuntime (swizzle)
 
 @end
 
-@implementation RXObjCRuntime(swizzle)
+@implementation BRXObjCRuntime(swizzle)
 
 SWIZZLE_OBSERVE_METHOD_DEFINITIONS(void)
 
@@ -587,20 +587,20 @@ SWIZZLE_OBSERVE_METHOD_DEFINITIONS(void, id, SEL)
 
 @end
 
-// MARK: RXObjCRuntime
+// MARK: BRXObjCRuntime
 
-@implementation RXObjCRuntime
+@implementation BRXObjCRuntime
 
-static RXObjCRuntime *_instance = nil;
-static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimizedObserversByMethodEncoding = nil;
+static BRXObjCRuntime *_instance = nil;
+static NSMutableDictionary<NSString *, BRXInterceptWithOptimizedObserver> *optimizedObserversByMethodEncoding = nil;
 
-+(RXObjCRuntime*)instance {
++(BRXObjCRuntime*)instance {
     return _instance;
 }
 
 +(void)initialize {
-    _instance = [[RXObjCRuntime alloc] init];
-    defaultTypeID = CFGetTypeID((CFTypeRef)RXObjCRuntime.class); // just need a reference of some object not from CF
+    _instance = [[BRXObjCRuntime alloc] init];
+    defaultTypeID = CFGetTypeID((CFTypeRef)BRXObjCRuntime.class); // just need a reference of some object not from CF
     deallocSelector = NSSelectorFromString(@"dealloc");
     NSAssert(_instance != nil, @"Failed to initialize swizzling");
 }
@@ -624,17 +624,17 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
     return self;
 }
 
--(void)performLocked:(void (^)(RXObjCRuntime* __nonnull))action {
+-(void)performLocked:(void (^)(BRXObjCRuntime* __nonnull))action {
     pthread_mutex_lock(&_lock);
     action(self);
     pthread_mutex_unlock(&_lock);
 }
 
-+(void)registerOptimizedObserver:(RXInterceptWithOptimizedObserver)registration encodedAs:(SEL)selector {
++(void)registerOptimizedObserver:(BRXInterceptWithOptimizedObserver)registration encodedAs:(SEL)selector {
     Method exampleEncodingMethod = class_getClassMethod(self, selector);
     ALWAYS(exampleEncodingMethod != nil, @"Example encoding method is nil.");
 
-    NSString *methodEncoding = RX_method_encoding(exampleEncodingMethod);
+    NSString *methodEncoding = BRX_method_encoding(exampleEncodingMethod);
 
     if (optimizedObserversByMethodEncoding == nil) {
         optimizedObserversByMethodEncoding = [NSMutableDictionary dictionary];
@@ -651,8 +651,8 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
 -(IMP __nullable)ensurePrepared:(id __nonnull)target forObserving:(SEL __nonnull)selector error:(NSErrorParam)error {
     Method instanceMethod = class_getInstanceMethod([target class], selector);
     if (instanceMethod == nil) {
-        RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                           code:RXObjCRuntimeErrorSelectorNotImplemented
+        BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                           code:BRXObjCRuntimeErrorSelectorNotImplemented
                                        userInfo:nil], nil);
     }
 
@@ -660,8 +660,8 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
     ||  selector == @selector(forwardingTargetForSelector:)
     ||  selector == @selector(methodSignatureForSelector:)
     ||  selector == @selector(respondsToSelector:)) {
-        RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                           code:RXObjCRuntimeErrorObservingPerformanceSensitiveMessages
+        BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                           code:BRXObjCRuntimeErrorObservingPerformanceSensitiveMessages
                                        userInfo:nil], nil);
     }
 
@@ -693,12 +693,12 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
             return nil;
         }
 
-        NSString *methodEncoding = RX_method_encoding(instanceMethod);
-        RXInterceptWithOptimizedObserver optimizedIntercept = optimizedObserversByMethodEncoding[methodEncoding];
+        NSString *methodEncoding = BRX_method_encoding(instanceMethod);
+        BRXInterceptWithOptimizedObserver optimizedIntercept = optimizedObserversByMethodEncoding[methodEncoding];
 
-        if (!RX_method_has_supported_return_type(instanceMethod)) {
-            RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                               code:RXObjCRuntimeErrorObservingMessagesWithUnsupportedReturnType
+        if (!BRX_method_has_supported_return_type(instanceMethod)) {
+            BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                               code:BRXObjCRuntimeErrorObservingMessagesWithUnsupportedReturnType
                                            userInfo:nil], nil);
         }
 
@@ -721,7 +721,7 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
         // default fallback to observing by forwarding messages
         else {
             if ([self forwardingSelector:selector forClass:swizzlingImplementorClass]) {
-                return RX_default_target_implementation();
+                return BRX_default_target_implementation();
             }
 
             if (![self observeByForwardingMessages:swizzlingImplementorClass
@@ -732,13 +732,13 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
             }
 
             if ([self forwardingSelector:selector forClass:swizzlingImplementorClass]) {
-                return RX_default_target_implementation();
+                return BRX_default_target_implementation();
             }
         }
     }
 
-    RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                       code:RXObjCRuntimeErrorUnknown
+    BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                       code:BRXObjCRuntimeErrorUnknown
                                    userInfo:nil], nil);
 }
 
@@ -759,8 +759,8 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
     BOOL isThisTollFreeFoundationClass = CFGetTypeID((CFTypeRef)target) != defaultTypeID;
 
     if (isThisTollFreeFoundationClass) {
-        RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                           code:RXObjCRuntimeErrorCantInterceptCoreFoundationTollFreeBridgedObjects
+        BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                           code:BRXObjCRuntimeErrorCantInterceptCoreFoundationTollFreeBridgedObjects
                                        userInfo:nil], nil);
     }
 
@@ -778,7 +778,7 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
      
      Failure scenario:
      * KVO sets class to be `__KVO__OriginalClass` (subclass of `OriginalClass`)
-     * `sentMessage` sets object class to be `_RX_namespace___KVO__OriginalClass` (subclass of `__KVO__OriginalClass`)
+     * `sentMessage` sets object class to be `_BRX_namespace___KVO__OriginalClass` (subclass of `__KVO__OriginalClass`)
      * then unobserving with KVO will restore class to be `OriginalClass` -> failure point
 
      The reason why changing order of observing works is because any interception method should return
@@ -792,10 +792,10 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
     if ([target class] != object_getClass(target)) {
         BOOL isKVO = [target respondsToSelector:NSSelectorFromString(@"_isKVOA")];
 
-        RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                           code:RXObjCRuntimeErrorObjectMessagesAlreadyBeingIntercepted
+        BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                           code:BRXObjCRuntimeErrorObjectMessagesAlreadyBeingIntercepted
                                        userInfo:@{
-                                                  RXObjCRuntimeErrorIsKVOKey : @(isKVO)
+                                                  BRXObjCRuntimeErrorIsKVOKey : @(isKVO)
                                                   }], nil);
     }
 
@@ -808,8 +808,8 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
     Class previousClass = object_setClass(target, dynamicFakeSubclass);
     if (previousClass != wannaBeClass) {
         THREADING_HAZARD(wannaBeClass);
-        RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                           code:RXObjCRuntimeErrorThreadingCollisionWithOtherInterceptionMechanism
+        BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                           code:BRXObjCRuntimeErrorThreadingCollisionWithOtherInterceptionMechanism
                                        userInfo:nil], nil);
     }
 
@@ -848,7 +848,7 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
 #if TRACE_RESOURCES
     atomic_fetch_add(&numberOfForwardedMethods, 1);
 #endif
-    SEL rxSelector = RX_selector(selector);
+    SEL rxSelector = BRX_selector(selector);
 
     Method instanceMethod = class_getInstanceMethod(swizzlingImplementorClass, selector);
     ALWAYS(instanceMethod != nil, @"Instance method is nil");
@@ -861,22 +861,22 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
     IMP implementation = method_getImplementation(instanceMethod);
 
     if (implementation == nil) {
-        RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                           code:RXObjCRuntimeErrorSelectorNotImplemented
+        BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                           code:BRXObjCRuntimeErrorSelectorNotImplemented
                                        userInfo:nil], NO);
     }
 
     if (!class_addMethod(swizzlingImplementorClass, rxSelector, implementation, methodEncoding)) {
-        RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                           code:RXObjCRuntimeErrorSavingOriginalForwardingMethodFailed
+        BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                           code:BRXObjCRuntimeErrorSavingOriginalForwardingMethodFailed
                                        userInfo:nil], NO);
     }
 
     if (!class_addMethod(swizzlingImplementorClass, selector, _objc_msgForward, methodEncoding)) {
         if (implementation != method_setImplementation(instanceMethod, _objc_msgForward)) {
             THREADING_HAZARD(swizzlingImplementorClass);
-            RX_THROW_ERROR([NSError errorWithDomain:RXObjCRuntimeErrorDomain
-                                               code:RXObjCRuntimeErrorReplacingMethodWithForwardingImplementation
+            BRX_THROW_ERROR([NSError errorWithDomain:BRXObjCRuntimeErrorDomain
+                                               code:BRXObjCRuntimeErrorReplacingMethodWithForwardingImplementation
                                            userInfo:nil], NO);
         }
     }
@@ -904,7 +904,7 @@ static NSMutableDictionary<NSString *, RXInterceptWithOptimizedObserver> *optimi
         return dynamicFakeSubclass;
     }
 
-    NSString *dynamicFakeSubclassName = [RX_PREFIX stringByAppendingString:NSStringFromClass(class)];
+    NSString *dynamicFakeSubclassName = [BRX_PREFIX stringByAppendingString:NSStringFromClass(class)];
     const char *dynamicFakeSubclassNameRaw = dynamicFakeSubclassName.UTF8String;
     dynamicFakeSubclass = objc_allocateClassPair(class, dynamicFakeSubclassNameRaw, 0);
     ALWAYS(dynamicFakeSubclass != nil, @"Class not generated");
@@ -1022,38 +1022,38 @@ replacementImplementationGenerator:(IMP (^)(IMP originalImplementation))replacem
 
 #if TRACE_RESOURCES
 
-NSInteger RX_number_of_dynamic_subclasses(void) {
+NSInteger BRX_number_of_dynamic_subclasses(void) {
     __block NSInteger count = 0;
-    [[RXObjCRuntime instance] performLocked:^(RXObjCRuntime * __nonnull self) {
+    [[BRXObjCRuntime instance] performLocked:^(BRXObjCRuntime * __nonnull self) {
         count = self.dynamicSubclassByRealClass.count;
     }];
 
     return count;
 }
 
-NSInteger RX_number_of_forwarding_enabled_classes(void) {
+NSInteger BRX_number_of_forwarding_enabled_classes(void) {
     __block NSInteger count = 0;
-    [[RXObjCRuntime instance] performLocked:^(RXObjCRuntime * __nonnull self) {
+    [[BRXObjCRuntime instance] performLocked:^(BRXObjCRuntime * __nonnull self) {
         count = self.classesThatSupportObservingByForwarding.count;
     }];
 
     return count;
 }
 
-NSInteger RX_number_of_intercepting_classes(void) {
+NSInteger BRX_number_of_intercepting_classes(void) {
     __block NSInteger count = 0;
-    [[RXObjCRuntime instance] performLocked:^(RXObjCRuntime * __nonnull self) {
+    [[BRXObjCRuntime instance] performLocked:^(BRXObjCRuntime * __nonnull self) {
         count = self.interceptorIMPbySelectorsByClass.count;
     }];
 
     return count;
 }
 
-NSInteger RX_number_of_forwarded_methods(void) {
+NSInteger BRX_number_of_forwarded_methods(void) {
     return numberOfForwardedMethods;
 }
 
-NSInteger RX_number_of_swizzled_methods(void) {
+NSInteger BRX_number_of_swizzled_methods(void) {
     return numberOInterceptedMethods;
 }
 
